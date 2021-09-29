@@ -7,15 +7,15 @@ class List{
 public:
     List();
     ~List();
-    void Pop_front();
-    void Push_back(T data);
-    int GetSize(){return size;};
     void Show_list();
-    void Clear();
-    void Push_Front(T data);
+    void Pop_front();
     void Pop_Back();
-    int insert(T data, int index);
     int removeAt(int index);
+    void Push_Front(T data);
+    void Push_back(T data);
+    int insert(T data, int index);
+    void Clear();
+    int GetSize(){return size;};
     T& operator[](const int index);
 private:
     template<typename T1>
@@ -101,6 +101,16 @@ void List<T>::Clear()
 }
 
 template<typename T>
+T &List<T>::operator[](const int index)
+{
+    Node<T>* tmp = this->head;
+    for(int i = 0; i < index - 1; i++){
+        tmp = tmp->pNextNode;
+    }
+    return tmp->data;
+}
+
+template<typename T>
 void List<T>::Push_Front(T data)
 {
     this->head = new Node<T>(data, this->head, nullptr);
@@ -150,17 +160,51 @@ int List<T>::insert(T data, int index)
     return 0;
 }
 
+template<typename T>
+int List<T>::removeAt(int index)
+{
+    if(index <= 0){
+        return 1;
+    }
+    else if(index == 1){
+        this->Pop_front();
+    }
+    else if(index > 1 && index < this->size){
+        Node<T>* tmp = this->head;
+        for(int i = 0; i < index - 1; i++){
+            tmp = tmp->pNextNode;
+        }
+
+        Node<T>* prev = tmp->pPrevNode;
+        Node<T>* next = tmp->pNextNode;
+        prev->pNextNode = next;
+        next->pPrevNode = prev;
+
+        delete tmp;
+        this->size--;
+        return 0;
+    }
+    else if(index == this->size){
+        this->Pop_Back();
+    }
+    else if(index > this->size){
+        return 1;
+    }
+    else {
+        return 1;
+    }
+    return 0;
+}
+
 int main()
 {
     List<int> lst;
 
     lst.Push_back(29);
     lst.Push_back(56);
-    lst.Push_back(3);
     lst.Push_back(10);
-    lst.Push_back(59);
-    lst.insert(844, 0);
     lst.Show_list();
+    cout << lst[1] + lst[3] << endl;
 
     return 0;
 }
