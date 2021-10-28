@@ -2,11 +2,15 @@
 
 using namespace std;
 
+template<typename TS>
+class Stack{
+public:
+
+private:
+
+};
+
 int main()
 {
-    cout << "Hello World!" << endl;
     return 0;
 }
-
-
-
