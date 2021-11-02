@@ -4,6 +4,7 @@ template<typename TN>
 Node<TN>::Node(TN indata, Node* innextnode)
 {
     data = indata;
+    nextNode = innextnode;
 }
 
 template<typename TN>
@@ -16,4 +17,10 @@ template<typename TN>
 void Node<TN>::SetNextNode(Node *innextnode)
 {
     nextNode = innextnode;
+}
+
+template<typename TN>
+TN Node<TN>::getData()
+{
+    return data;
 }

@@ -2,13 +2,16 @@
 #include "node.h"
 #include "stack.h"
 #include "executer.h"
+#include "testclass.h"
 
 using namespace std;
 
 int main()
 {
-    Executer<int> executer;
-//    Node<int> node(45);
+    TestClass test;
+    test.Exec();
+
+    Node<int> node(45);
 
 //    cout << node.getData() << endl;
 //    Stack<int> Stack;
