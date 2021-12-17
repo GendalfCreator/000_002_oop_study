@@ -3,7 +3,6 @@
 using namespace std;
 
 const int __LINE_LENGTH = 20;
-
 int** __LINE_ADDRESS = new int* [2];
 
 class WorkLine{
@@ -37,20 +36,52 @@ class TuringMashine{
 public:
     TuringMashine(){
         position = __LINE_LENGTH/2;
+        memory = 0;
     }
     int GetPosition(){
         return position;
+    }
+    int GetMemory(){
+        return memory;
+    }
+    void SetMemory(int value){
+        memory = value;
     }
     int Move(int new_position){
         position = new_position;
         return 0;
     }
-    int Write(int value){
-        __LINE_ADDRESS[0][position] = value;
+    int Set(){
+        if(__LINE_ADDRESS[0][position] == 1 && memory == 1){
+            __LINE_ADDRESS[0][position] = 0;
+            Move(position - 1);
+            Set();
+        }
+        else if(__LINE_ADDRESS[0][position] == 0){
+            __LINE_ADDRESS[0][position] = memory;
+        }
+        else if(__LINE_ADDRESS[0][position] == 1 && memory == 0){
+            return 0;
+        }
         return 0;
+    }
+
+    void Execution(string program, int value){
+        if(program == "mov"){
+            Move(value);
+        }
+        else if(program == "set"){
+            SetMemory(value);
+            Set();
+        }
+        else if(program == "get"){
+            Move(value);
+            SetMemory(__LINE_ADDRESS[0][position]);
+        }
     }
 private:
     int position;
+    int memory;
 };
 
 
@@ -70,7 +101,20 @@ void PrintBoard(WorkLine& line, TuringMashine& mashine){
              << (i == mashine.GetPosition() ? "^^" : "_");
     }
 
-    cout << "|" << endl << endl << endl;
+    cout << "|" << endl << "\t";
+
+    for(int i = 0; i < line.GetLength(); i++){
+        if(i != mashine.GetPosition()){
+            cout << "   ";
+        }
+        else if(i == mashine.GetPosition()){
+            cout << "[ ";
+            cout << mashine.GetMemory();
+            cout << "]";
+        }
+    }
+
+    cout << endl << endl << endl;
 }
 
 int main()
@@ -80,10 +124,53 @@ int main()
 
     PrintBoard(line, mashine);
 
-    mashine.Move(5);
-    mashine.Write(1);
+    mashine.Execution("mov", 3);
+    mashine.Execution("set", 1);
+    mashine.Execution("mov", 2);
+    mashine.Execution("set", 1);
+    PrintBoard(line, mashine);
+
+    mashine.Execution("mov", 7);
+    mashine.Execution("set", 1);
+    mashine.Execution("mov", 6);
+    mashine.Execution("set", 1);
+    PrintBoard(line, mashine);
+
+    mashine.Execution("get", 3);
+    mashine.Execution("mov", 11);
+    mashine.Execution("set", mashine.GetMemory());
+    mashine.Execution("get", 2);
+    mashine.Execution("mov", 10);
+    mashine.Execution("set", mashine.GetMemory());
+    mashine.Execution("get", 1);
+    mashine.Execution("mov", 9);
+    mashine.Execution("set", mashine.GetMemory());
+    mashine.Execution("get", 0);
+    mashine.Execution("mov", 8);
+    mashine.Execution("set", mashine.GetMemory());
+    PrintBoard(line, mashine);
+
+    mashine.Execution("get",7);
+    mashine.Execution("mov",11);
+    mashine.Execution("set", mashine.GetMemory());
+    PrintBoard(line, mashine);
+
+    mashine.Execution("get",6);
+    mashine.Execution("mov",10);
+    mashine.Execution("set", mashine.GetMemory());
+    PrintBoard(line, mashine);
+
+    mashine.Execution("get",5);
+    mashine.Execution("mov",9);
+    mashine.Execution("set", mashine.GetMemory());
+    PrintBoard(line, mashine);
+
+    mashine.Execution("get",4);
+    mashine.Execution("mov",8);
+    mashine.Execution("set", mashine.GetMemory());
+    PrintBoard(line, mashine);
 
 
-   PrintBoard(line,mashine);
+
     return 0;
 }
