@@ -113,6 +113,26 @@ void PrintBoard(WorkLine& line, TuringMashine& mashine){
             cout << "]";
         }
     }
+    cout << endl;
+
+    cout << "\tПервый операнд = ";
+    for(int i = 0; i < 4; i++){
+        cout << __LINE_ADDRESS[0][i];
+    }
+    cout << endl;
+
+    cout << "\tВторой операнд = ";
+    for(int i = 4; i < 8; i++){
+        cout << __LINE_ADDRESS[0][i];
+    }
+    cout << endl;
+
+    cout << "\tТретий операнд = ";
+    for(int i = 8; i < 12; i++){
+        cout << __LINE_ADDRESS[0][i];
+    }
+    cout << endl;
+
 
     cout << endl << endl << endl;
 }
@@ -124,18 +144,29 @@ int main()
 
     PrintBoard(line, mashine);
 
+    //Внесение на ленту первой переменной (0011)
     mashine.Execution("mov", 3);
     mashine.Execution("set", 1);
     mashine.Execution("mov", 2);
     mashine.Execution("set", 1);
+    mashine.Execution("mov", 1);
+    mashine.Execution("set", 0);
+    mashine.Execution("mov", 0);
+    mashine.Execution("set", 0);
     PrintBoard(line, mashine);
 
+    //Внесение на ленту второй переменной (0011)
     mashine.Execution("mov", 7);
     mashine.Execution("set", 1);
     mashine.Execution("mov", 6);
     mashine.Execution("set", 1);
+    mashine.Execution("mov", 5);
+    mashine.Execution("set", 0);
+    mashine.Execution("mov", 4);
+    mashine.Execution("set", 0);
     PrintBoard(line, mashine);
 
+    //Копирование первой переменной в третью (результирующую)
     mashine.Execution("get", 3);
     mashine.Execution("mov", 11);
     mashine.Execution("set", mashine.GetMemory());
@@ -150,21 +181,25 @@ int main()
     mashine.Execution("set", mashine.GetMemory());
     PrintBoard(line, mashine);
 
+    //Сложение первого бита третьей переменной и первого бита второй переменной
     mashine.Execution("get",7);
     mashine.Execution("mov",11);
     mashine.Execution("set", mashine.GetMemory());
     PrintBoard(line, mashine);
 
+    //Сложение второго бита третьей переменной и второго бита второй переменной
     mashine.Execution("get",6);
     mashine.Execution("mov",10);
     mashine.Execution("set", mashine.GetMemory());
     PrintBoard(line, mashine);
 
+    //Сложение третьего бита третьей переменной и третьего бита второй переменной
     mashine.Execution("get",5);
     mashine.Execution("mov",9);
     mashine.Execution("set", mashine.GetMemory());
     PrintBoard(line, mashine);
 
+    //Сложение четвёртого бита третьей переменной и четвёртого бита второй переменной
     mashine.Execution("get",4);
     mashine.Execution("mov",8);
     mashine.Execution("set", mashine.GetMemory());
